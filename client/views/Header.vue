@@ -66,13 +66,15 @@
             vertical-align: super;
             font-size: 50px;
             font-family: Quicksand;
+            font-weight: lighter;
         }
 
         display: inline-block;
+        margin-right: 20px;
     }
 
     .actionbar {
-        margin: 10px;
+        padding: 10px;
     }
 
     .searchbar {
@@ -80,6 +82,7 @@
         display: inline-block;
 
         width: 480px;
+        max-width: 100%;
 
         form {
             width: 100%;
@@ -89,14 +92,15 @@
             //height: 50px;
             vertical-align: bottom;
             font-size: 16px;
-            margin-left: 20px;
             padding-top: 10px;
             padding-bottom: 10px;
             padding-left: 10px;
             padding-right: 10px;
+            box-sizing: border-box;
             border: none;
             outline: none;
             width: 100%;
+            overflow: auto;
             //border-radius: 3px;
         }
     }

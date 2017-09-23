@@ -5,7 +5,27 @@ import { clone } from 'lodash';
 
 Vue.use(Vuex);
 
-interface BuyMeStore {
+interface ContentEntry {
+    content: string;
+    props: any;
+}
+
+interface ExplorerStore {
+
+    // The structure of data which builds the body of the page
+    data: {
+        split: ContentEntry[][],
+
+        // here we can specify a few objs:
+        // split: expects the page to be divided into n columns (n is defined within)
+        // main: provides a full page card, plus optional content to the edges
+        main: {
+            left: ContentEntry[],
+            right: ContentEntry[],
+            page: ContentEntry[]
+        }
+    }
+
     navAt: {[id: string]: string};
     modalVue: Vue
 }
@@ -13,6 +33,55 @@ interface BuyMeStore {
 export default new Vuex.Store({
 
     state: {
+        data: {
+            split: [
+                [
+                    {
+                        content: 'shard-tree',
+                        props: {
+                            tree: [
+                                {
+                                    id: 'uno',
+                                    parent: null,
+                                    height: 0,
+                                    isLeaf: false
+                                },
+                                {
+                                    id: 'dos',
+                                    parent: 'uno',
+                                    height: 1,
+                                    isLeaf: false
+                                },
+                                {
+                                    id: 'tres',
+                                    parent: 'uno',
+                                    height: 1,
+                                    isLeaf: true
+                                },
+                                {
+                                    id: 'cinco',
+                                    parent: 'dos',
+                                    height: 2,
+                                    isLeaf: true
+                                },
+                                {
+                                    id: 'quatro',
+                                    parent: 'dos',
+                                    height: 2,
+                                    isLeaf: true
+                                }
+                            ]
+                        }
+                    }
+                ],
+                [
+
+                ],
+                [
+
+                ]
+            ]
+        }
     },
 
     mutations: {
@@ -20,4 +89,4 @@ export default new Vuex.Store({
 
     modules: {
     }
-} as StoreOptions<BuyMeStore>);
+} as StoreOptions<ExplorerStore>);

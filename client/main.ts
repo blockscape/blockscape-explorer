@@ -1,6 +1,6 @@
 import _ from 'lodash';
 //import VueResource from 'vue-resource';
-import Vue, { ComponentOptions, PluginObject } from 'vue';
+import Vue, { Component, ComponentOptions, PluginObject } from 'vue';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 
@@ -11,6 +11,7 @@ import ToastStack from 'views/ToastStack.vue';
 import 'css/style.scss';
 
 const Spinner = (resolve: any) => require(['views/Spinner.vue'], resolve);
+const Home = (resolve: any) => require(['views/Home.vue'], resolve);
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -46,7 +47,7 @@ var app = new Vue({
         mode: 'history',
         routes: [
             // sitewide routing table goes here!
-            { path: '/', component: Spinner, props: {size: 120} },
+            { path: '/', component: <ComponentOptions<Vue>>Home },
         ],
         scrollBehavior(to, from, savedPosition) {
             if(savedPosition)
