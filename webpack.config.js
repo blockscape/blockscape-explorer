@@ -7,7 +7,7 @@ var webpack = require('webpack');
 var cfg = {
     entry: {
         main: './client/main.ts',
-        vendor: ['vue', 'vue-router', 'vue-resource', 'vuex', 'lodash', 'leaflet', 'moment']
+        vendor: ['vue', 'vue-router', 'vue-resource', 'vuex', 'lodash', 'c3', 'd3']
     },
     output: {
         filename: '[name]/bundle.js',

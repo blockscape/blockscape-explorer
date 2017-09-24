@@ -41,6 +41,8 @@
         padding-left: 10px;
         padding-right: 10px;
 
+        box-sizing: border-box;
+
         .kv {
             display: inline-block;
             margin-right: 20px;

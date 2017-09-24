@@ -4,14 +4,14 @@ import Vue, { Component, ComponentOptions, PluginObject } from 'vue';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 
-import Header from 'views/Header.vue';
-import Footer from 'views/Footer.vue';
-import ToastStack from 'views/ToastStack.vue';
+import Header from './views/Header';
+import Footer from './views/Footer';
+import ToastStack from './views/ToastStack';
 
 import 'css/style.scss';
 
-const Spinner = (resolve: any) => require(['views/Spinner.vue'], resolve);
-const Home = (resolve: any) => require(['views/Home.vue'], resolve);
+const Spinner = (resolve: any) => require(['./views/Spinner.vue'], resolve);
+const Home = (resolve: any) => require(['./views/Home.vue'], resolve);
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -68,7 +68,7 @@ var app = new Vue({
                 createElement('div', {
                     style: {
                         'min-height': this.minPageSize + 'px',
-                        'width': '100%',
+                        //'width': '100%',
                         'position': 'relative'
                     },
                     attrs: {
@@ -77,10 +77,7 @@ var app = new Vue({
 
                     ref: 'content'
                 }, [
-                    createElement('router-view',
-                    {
-                        on: {'update-route': this.updateRouteQuery}
-                    })
+                    createElement('router-view')
                 ]),
                 createElement(Footer),
                 createElement(ToastStack)

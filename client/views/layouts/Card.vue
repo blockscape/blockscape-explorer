@@ -1,15 +1,26 @@
 <template>
-<div class="card">
-    <h2>{{ title }}</h2>
-    <slot></slot>
+<div class="container">
+    <div class="card">
+        <h2>{{ title }}</h2>
+        <slot></slot>
+    </div>
 </div>
 </template>
 
 <style lang="scss" scoped>
+
+.container {
+    padding: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .card {
     display: inline-block;
     background-color: white;
-    margin: 5px;
+    //margin: 5px;
+
+    width: 100%;
 
     h2 {
         text-align: center;

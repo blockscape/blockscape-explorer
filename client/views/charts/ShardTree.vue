@@ -6,6 +6,10 @@
     <g class="nodes">
 
     </g>
+
+    <g class="text">
+
+    </g>
 </svg>
 </template>
 
@@ -24,16 +28,12 @@ import _ from 'lodash';
 
 import * as d3 from 'd3';
 
-import Card from '../Card.vue';
-
 import {u256, ShardInfo} from "../../../lib/primatives";
-
-Vue.component('card', Card);
 
 const TREE_ITEM_WIDTH = 75;
 const TREE_ITEM_HEIGHT = 30;
 
-const TREE_VERTICAL_SPACE = 90;
+const TREE_VERTICAL_SPACE = 70;
 
 const TRANSITION_TIME = 250;
 

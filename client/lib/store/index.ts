@@ -39,38 +39,6 @@ export default new Vuex.Store({
                     {
                         content: 'shard-tree',
                         props: {
-                            tree: [
-                                {
-                                    id: 'uno',
-                                    parent: null,
-                                    height: 0,
-                                    isLeaf: false
-                                },
-                                {
-                                    id: 'dos',
-                                    parent: 'uno',
-                                    height: 1,
-                                    isLeaf: false
-                                },
-                                {
-                                    id: 'tres',
-                                    parent: 'uno',
-                                    height: 1,
-                                    isLeaf: true
-                                },
-                                {
-                                    id: 'cinco',
-                                    parent: 'dos',
-                                    height: 2,
-                                    isLeaf: true
-                                },
-                                {
-                                    id: 'quatro',
-                                    parent: 'dos',
-                                    height: 2,
-                                    isLeaf: true
-                                }
-                            ]
                         }
                     }
                 ],

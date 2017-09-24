@@ -3,10 +3,6 @@
 </template>
 
 <style lang="scss" scoped>
-svg {
-    width: 100%;
-    min-height: 200px;
-}
 </style>
 
 <script lang="ts">
@@ -40,7 +36,7 @@ import * as d3 from 'd3';
         }
     },
     watch: {
-        points: 'updatePoints'
+        'chartPoints': 'updatePoints'
     }
 })
 export default class Graph extends Vue {
@@ -69,7 +65,14 @@ export default class Graph extends Vue {
     }
 
     get chartYFormat() {
-        return d3.format(this.yFormat);
+        if(this.yFormat)
+            return d3.format(this.yFormat);
+        else
+            return null;
+    }
+
+    get chartPoints() {
+        return this.points;
     }
 
     mounted() {
@@ -103,12 +106,12 @@ export default class Graph extends Vue {
     updatePoints(oldPoints: (string|number|boolean)[][], newPoints: (string|number|boolean)[][]) {
         // figure out where the changes happened
         // first remove nonexistant ones, then add new ones
-        const removed = _.map(_.difference(oldPoints, newPoints), _.head);
+        const removed: any[] = _.map(_.difference(oldPoints, newPoints), _.head);
         const added = _.difference(newPoints, oldPoints);
 
         this.chart.load({
             columns: added,
-            unload: <string[]>removed
+            unload: removed
         });
     }
 }
