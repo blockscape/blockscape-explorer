@@ -19,8 +19,7 @@ cache:
 build:
     stage: build
     script:
-        - npm i -g webpack@2.6.1
         - NODE_ENV=development npm i
-        - webpack
+        - node_modules/.bin/webpack
 
 # TODO: Run unit tests as part of the check stage
