@@ -3,8 +3,12 @@ image: node:8
 services:
     - dcr.buyme360.com/devops/docker:dind
 
+stages:
+- build
+- package
+
 variables:
-    IMAGE_TAG2: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
     NODE_ENV: production
     DOCKER_HOST: tcp://localhost:2375
 
@@ -19,7 +23,7 @@ build:
     stage: build
     script:
         - NODE_ENV=development npm i
-        - npm i -g gulp-cli
+        - npm i -g gulp-cli webpack
         - gulp
     artifacts:
       paths:
@@ -30,7 +34,7 @@ package:
     image: dcr.buyme360.com/devops/docker:latest
     script:
         - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-        - docker build -t $IMAGE_TAG
+        - docker build -t $IMAGE_TAG .
         - docker push $IMAGE_TAG
     dependencies:
         - build
