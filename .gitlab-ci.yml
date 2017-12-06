@@ -3,6 +3,10 @@ image: node:8
 services:
     - dcr.buyme360.com/devops/docker:dind
 
+stages:
+- build
+- package
+
 variables:
     IMAGE_TAG2: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
     NODE_ENV: production
