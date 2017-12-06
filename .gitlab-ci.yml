@@ -4,8 +4,7 @@ services:
     - dcr.buyme360.com/devops/docker:dind
 
 variables:
-    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    IMAGE_TAG2: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+    IMAGE_TAG2: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
     NODE_ENV: production
     DOCKER_HOST: tcp://localhost:2375
 
@@ -20,6 +19,20 @@ build:
     stage: build
     script:
         - NODE_ENV=development npm i
-        - node_modules/.bin/webpack
+        - npm i -g gulp-cli
+        - gulp
+    artifacts:
+      paths:
+        - dist/
+
+package:
+    stage: package
+    image: dcr.buyme360.com/devops/docker:latest
+    script:
+        - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+        - docker build -t $IMAGE_TAG
+        - docker push $IMAGE_TAG
+    dependencies:
+        - build
 
 # TODO: Run unit tests as part of the check stage
