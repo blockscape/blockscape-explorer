@@ -115,11 +115,36 @@ import _ from 'lodash';
 import Vue, { ComponentOptions } from 'vue';
 import Component from 'vue-class-component';
 
+import { NetworkStatistics } from 'lib/primatives/stats';
+
+const HEADER_POLL_INTERVAL = 5000;
+
 @Component({
-    props: {
-    }
 })
 export default class Header extends Vue {
+
+    interval: any;
+
+    stats: NetworkStatistics;
+
+    created() {
+        // start
+        this.interval = setInterval(this.getData, HEADER_POLL_INTERVAL);
+        this.getData();
+    }
+
+    destroyed() {
+        clearInterval(this.interval);
+    }
+
+    async getData() {
+        try {
+            this.interval = (await this.$http.get('/api/stats/net')).data;
+        }
+        catch(err) {
+            console.error('Could not load network statistics: ', err);
+        }
+    }
 };
 
 </script>

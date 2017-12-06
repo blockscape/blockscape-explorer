@@ -143,7 +143,8 @@ var cfg = {
     resolve: {
         extensions: ['.tsx', '.ts', '.vue', '.js', '.scss', '.css'],
         alias: {
-            'vue$': 'vue/dist/vue.runtime.js'
+            'vue$': 'vue/dist/vue.runtime.js',
+            'lib': path.resolve(__dirname, 'lib/'),
         },
         modules: [path.resolve(__dirname, 'client'), 'node_modules']
     },
