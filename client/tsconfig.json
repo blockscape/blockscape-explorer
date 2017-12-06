@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "target": "es5",
+        "jsx": "preserve",
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "lib": [
+            "dom",
+            "es5",
+            "es2015.promise"
+        ],
+        "module": "es2015",
+        "moduleResolution": "node",
+        "traceResolution": true,
+        "types": []
+    }
+}
