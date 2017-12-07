@@ -145,7 +145,7 @@ export default class Header extends Vue {
 
     async getData() {
         try {
-            this.interval = (await this.$http.get('/api/stats/net')).data;
+            this.stats = (await this.$http.get('/api/stats/net')).data;
         }
         catch(err) {
             console.error('Could not load network statistics: ', err);
