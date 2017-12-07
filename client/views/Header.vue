@@ -125,7 +125,13 @@ export default class Header extends Vue {
 
     interval: any;
 
-    stats: NetworkStatistics;
+    stats: NetworkStatistics = {
+        attached_networks: 0,
+        connected_peers: 0,
+        rx: 0,
+        tx: 0,
+        avg_latency: 0
+    };
 
     created() {
         // start
