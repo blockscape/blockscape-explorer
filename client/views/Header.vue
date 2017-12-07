@@ -3,7 +3,7 @@
 <div class="infobar">
     <div class="kv">
         <span class="key"># Nodes:</span>
-        <span class="value">0</span>
+        <span class="value">{{stats.connected_peers}}</span>
     </div>
     <div class="kv">
         <span class="key">Root Height:</span>
