@@ -2,8 +2,8 @@
 <header class="header">
 <div class="infobar">
     <div class="kv">
-        <span class="key">I/O:</span>
-        <span class="value">{{stats.rx + stats.tx}}</span>
+        <span class="key"># Nodes:</span>
+        <span class="value">{{stats.connected_peers}}</span>
     </div>
     <div class="kv">
         <span class="key">Root Height:</span>
