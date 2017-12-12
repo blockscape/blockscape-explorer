@@ -12,6 +12,10 @@ import 'css/style.scss';
 
 const Spinner = (resolve: any) => require(['./views/Spinner.vue'], resolve);
 const Home = (resolve: any) => require(['./views/Home.vue'], resolve);
+const ViewBlock = (resolve: any) => require(['./views/ViewBlock.vue'], resolve);
+const ViewTxn = (resolve: any) => require(['./views/ViewTxn.vue'], resolve);
+const ListBlock = (resolve: any) => require(['./views/ListBlock.vue'], resolve);
+const ListTxn = (resolve: any) => require(['./views/ListTxn.vue'], resolve);
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -48,6 +52,10 @@ var app = new Vue({
         routes: [
             // sitewide routing table goes here!
             { path: '/', component: <ComponentOptions<Vue>>Home },
+            { path: '/block', component: <ComponentOptions<Vue>>ListBlock },
+            { path: '/block/:hash', component: <ComponentOptions<Vue>>ViewBlock },
+            { path: '/txn', component: <ComponentOptions<Vue>>ListTxn },
+            { path: '/txn/:hash', component: <ComponentOptions<Vue>>ViewTxn }
         ],
         scrollBehavior(to, from, savedPosition) {
             if(savedPosition)
@@ -68,7 +76,6 @@ var app = new Vue({
                 createElement('div', {
                     style: {
                         'min-height': this.minPageSize + 'px',
-                        //'width': '100%',
                         'position': 'relative'
                     },
                     attrs: {

@@ -115,7 +115,7 @@ import _ from 'lodash';
 import Vue, { ComponentOptions } from 'vue';
 import Component from 'vue-class-component';
 
-import { NetworkStatistics } from 'lib/primatives/stats';
+import { NetworkStatistics } from 'lib/primitives/stats';
 
 const HEADER_POLL_INTERVAL = 5000;
 

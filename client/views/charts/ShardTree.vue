@@ -28,7 +28,7 @@ import _ from 'lodash';
 
 import * as d3 from 'd3';
 
-import {u256, ShardInfo} from "../../../lib/primatives";
+import {u256, ShardInfo} from "lib/primitives";
 
 const TREE_ITEM_WIDTH = 75;
 const TREE_ITEM_HEIGHT = 30;

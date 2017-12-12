@@ -13,6 +13,8 @@
         "moduleResolution": "node",
         "sourceMap": true,
         "inlineSources": true,
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
         "types": ["node"]
     },
     "include": [

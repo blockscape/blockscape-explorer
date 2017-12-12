@@ -4,7 +4,7 @@ import Component from 'vue-class-component';
 
 import _ from 'lodash';
 import * as c3 from 'c3';
-import {u256, ShardInfo} from "../../../lib/primatives";
+import {u256, ShardInfo} from "lib/primitives";
 
 import Graph from './Graph';
 

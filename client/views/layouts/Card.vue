@@ -2,7 +2,7 @@
 <div class="container">
     <div class="card">
         <h2>{{ title }}</h2>
-        <slot></slot>
+        <slot v-if="loading"></slot>
     </div>
 </div>
 </template>
@@ -37,11 +37,17 @@ import Component from 'vue-class-component';
         title: {
             type: String,
             required: true
+        },
+
+        loading: {
+            type: Boolean,
+            default: false
         }
     }
 })
 export default class Card extends Vue {
     title: String;
     
+    loading: boolean;
 }
 </script>
