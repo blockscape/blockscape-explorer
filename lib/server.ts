@@ -37,6 +37,10 @@ export function startServer() {
         console.error('No APIs were found!');
     }
 
+    app.use((req, res) => {
+        res.sendFile(process.cwd() + '/client/index.html');
+    });
+
     server = app.listen(3000, () => {
         return console.log('Listening on port 3000!');
     });

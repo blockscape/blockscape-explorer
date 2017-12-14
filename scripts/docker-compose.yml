@@ -1,0 +1,46 @@
+version: '3.3'
+
+services:
+  blockscape_1:
+    image: dcr.buyme360.com/plu-capstone/blockscape:${TAG}
+
+    networks:
+    - net
+
+    command: /blockscape -h blockscape_1 --seed-node blockscape_2:35653 --rpcbind 0.0.0.0
+
+  blockscape_2:
+    image: dcr.buyme360.com/plu-capstone/blockscape:${TAG}
+
+    networks:
+    - net
+
+    command: /blockscape -h blockscape_2 # --seed-node blockscape_1:35653
+
+  blockscape_3:
+    image: dcr.buyme360.com/plu-capstone/blockscape:${TAG}
+
+    networks:
+    - net
+
+    command: /blockscape -h blockscape_3 --seed-node blockscape_1:35653
+
+  explorer:
+    image: dcr.buyme360.com/plu-capstone/blockscape-explorer:latest
+
+    networks:
+    - net
+
+    ports:
+    - 3000:3000
+
+    volumes:
+    - ./config.json:/usr/src/config.json
+
+    depends_on:
+    - blockscape_1
+
+    command: ts-node lib/server.ts
+
+networks:
+  net:

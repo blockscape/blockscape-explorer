@@ -1,0 +1,6 @@
+{
+    "rpc": {
+        "host": "blockscape_1",
+        "port": 8356
+    }
+}

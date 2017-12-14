@@ -1,9 +1,37 @@
 @import url('https://fonts.googleapis.com/css?family=Inconsolata:400,700|Quicksand:300,400,700');
 
+@import 'palette';
+
 body {
     background-color: #222;
     margin: 0;
     font-family: Inconsolata;
+}
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    tr:nth-child(odd) {
+        background-color: $color-gray;
+    }
+
+    tr {
+        height: 32px;
+    }
+    
+    td:first-child {
+        font-weight: bold;
+        text-align: right;
+        min-width: 35%;
+    }
+
+    td {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
 }
 
 .kv {

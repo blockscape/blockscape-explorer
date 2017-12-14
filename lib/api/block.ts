@@ -18,6 +18,7 @@ router.get('/:id', async (_, res) => {
         txns: [
 
         ],
+        hash: '0000000000000000000000000000000000000000000000000000000000000000',
         height: 1,
         status: 'Mainchain'
     })

@@ -53,9 +53,9 @@ var app = new Vue({
             // sitewide routing table goes here!
             { path: '/', component: <ComponentOptions<Vue>>Home },
             { path: '/block', component: <ComponentOptions<Vue>>ListBlock },
-            { path: '/block/:hash', component: <ComponentOptions<Vue>>ViewBlock },
+            { path: '/block/:hash', component: <ComponentOptions<Vue>>ViewBlock, props: true },
             { path: '/txn', component: <ComponentOptions<Vue>>ListTxn },
-            { path: '/txn/:hash', component: <ComponentOptions<Vue>>ViewTxn }
+            { path: '/txn/:hash', component: <ComponentOptions<Vue>>ViewTxn, props: true }
         ],
         scrollBehavior(to, from, savedPosition) {
             if(savedPosition)

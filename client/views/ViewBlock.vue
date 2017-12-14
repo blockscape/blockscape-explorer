@@ -2,24 +2,26 @@
 <main>
 <split-layout :columns="2">
     <card title="Summary" slot="0" :loading="block == null">
-        <table>
+        <table v-if="block != null">
             <tr><td>Hash</td><td>{{ block.hash }}</td></tr>
             <tr><td>Height</td><td>{{ block.height }} ({{ block.status }})</td></tr>
             <tr><td># of Txns</td><td>{{ block.txns.length }}</td></tr>
         </table>
     </card>
     <card title="Header Info" slot="1" :loading="block == null">
-        <table>
+        <table v-if="block != null">
             <tr><td>Timestamp</td><td>{{ block.header.timestamp | datetime }}</td></tr>
-            <tr><td>Shard Hash</td><td><router-link :href="'/shard/' + block.header.shard">{{ block.header.shard }}</router-link></td></tr>
+            <tr><td>Shard Hash</td><td><router-link :to="'/shard/' + block.header.shard">{{ block.header.shard }}</router-link></td></tr>
             <tr><td>Merkle Root</td><td>{{ block.header.merkle_root }}</td></tr>
-            <tr><td>Previous Block</td><td><router-link :href="'/block/' + block.header.prev">{{ block.header.prev }}</router-link></td></tr>
-            <tr><td>Next Block</td><td><router-link :href="'/block/' + block.next">{{ block.next }}</router-link></td></tr>
+            <tr><td>Previous Block</td><td><router-link :to="'/block/' + block.header.prev">{{ block.header.prev }}</router-link></td></tr>
+            <tr><td>Next Block</td><td><router-link :to="'/block/' + block.next">{{ block.next }}</router-link></td></tr>
         </table>
     </card>
 </split-layout>
 <card title="List of Transactions" :loading="block == null">
+    <div  v-if="block != null">
 
+    </div>
 </card>
 </main>
 </template>
@@ -39,10 +41,14 @@ import MiniTxn from './MiniTxn';
 
 import {Block} from 'lib/primitives/block';
 
+import datetime from '../lib/filters/datetime';
+
 Vue.component('card', Card);
 Vue.component('time-series', TimeSeries);
 Vue.component('split-layout', SplitLayout);
 Vue.component('mini-txn', MiniTxn);
+
+Vue.filter('datetime', datetime);
 
 @Component({
     props: {
@@ -59,6 +65,8 @@ export default class ViewBlock extends Vue {
     block: Block|null = null;
 
     created() {
+        console.log(this.block);
+
         this.reload();
     }
 

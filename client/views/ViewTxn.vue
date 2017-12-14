@@ -3,7 +3,7 @@
 <card title="Summary" :loading="txn == null">
     <table>
         <tr><td>Size</td><td>{{ txn.size }} (bytes)</td></tr>
-        <tr><td>Timestamp</td><td><router-link :href="'/shard/' + block.header.shard">{{ txn.timestamp | datetime }}</router-link></td></tr>
+        <tr><td>Timestamp</td><td><router-link :to="'/shard/' + block.header.shard">{{ txn.timestamp | datetime }}</router-link></td></tr>
         <tr><td>Receive Time</td><td>{{ block.header.merkle_root }}</td></tr>
         <tr><td>Included in Block</td><td><router-link :href="'/block/' + block.header.prev">{{ txn.block }}</router-link></td></tr>
     </table>
@@ -26,8 +26,12 @@ import MiniMutation from './MiniMutation';
 
 import { Txn } from 'lib/primitives/txn';
 
+import datetime from '../lib/filters/datetime';
+
 Vue.component('card', Card);
 Vue.component('mini-mutation', MiniMutation);
+
+Vue.filter('datetime', datetime);
 
 @Component({
     props: {
