@@ -13,7 +13,16 @@ export interface BlockHeader {
     prev: string,
 
     /// The merkle root hash of all the transactions, in hex
-    merkle_root: string
+    merkle_root: string,
+
+    /// The number of blocks which occur before this one in the chain minus 1
+    height: number,
+
+    /// The hash of the block header
+    hash: string,
+
+    /// The number of transactions found in this block
+    txn_count: number
 }
 
 export interface Block {
@@ -21,9 +30,6 @@ export interface Block {
 
     /// All the transactions within this block
     txns: Txn[],
-
-    /// The number of blocks which occur before this one in the chain
-    height: number,
 
     /// A string describing the current status of the block. Can be one of "Mainchain", "Uncle" for right now
     status: string,

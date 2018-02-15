@@ -4,6 +4,12 @@ import rpc from '../rpc';
 
 export let router = Router();
 
+router.get('/', async (_, res) => {
+    // compile a bunch of stats together
+    
+    res.end();
+});
+
 router.get('/net', async (_, res) => {
     try {
         let stats = await rpc().request('get_net_stats', []);

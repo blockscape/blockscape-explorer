@@ -9,6 +9,9 @@ gulp.task('clean', () => {
 gulp.task('copy', () => {
     gulp.src(['lib/**/*'], {base: '.'})
         .pipe(gulp.dest('dist'));
+
+    gulp.src(['/lib/tsconfig.json'])
+        .pipe(gulp.dest('dist/tsconfig.json'));
 });
 
 gulp.task('webpack', (callback) => {

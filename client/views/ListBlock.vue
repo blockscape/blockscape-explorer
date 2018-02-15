@@ -1,7 +1,18 @@
 <template>
 <main>
 <card title="Latest Blocks">
-
+    <paged-table 
+    :header="['Height', 'Hash', 'Age', 'Txn Count']"
+    :items="blocks" 
+    :cur="blocks ? blocks[0].height : 1" :max="block_max" :min="1" 
+    @next="change(blocks[blocks.length - 1].height)" @prev="change(blocks[0].height - size - 1)">
+        <tr slot-scope="props">
+            <td>{{ props.item.height }}</td>
+            <td>{{ props.item.hash }}</td>
+            <td>{{ props.item.timestamp | timeAgo timeNow }}</td>
+            <td>{{ props.item.txn_count }}</td>
+        </tr>
+    </paged-table>
 </card>
 </main>
 </template>
@@ -14,37 +25,67 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 
 import Card from './layouts/Card';
-import TimeSeries from './charts/TimeSeries';
-import SplitLayout from './layouts/SplitLayout';
-import MiniTxn from './MiniTxn';
+import PagedTable from './PagedTable';
 
 import {Block} from 'lib/primitives/block';
 
 Vue.component('card', Card);
-Vue.component('time-series', TimeSeries);
-Vue.component('split-layout', SplitLayout);
-Vue.component('mini-txn', MiniTxn);
+Vue.component('paged-table', PagedTable);
 
 @Component({
     props: {
-        hash: {
-            type: String,
-            required: true
+        height: {
+            type: Number,
+            default: null
+        },
+
+        size: {
+            type: Number,
+            default: 10
         }
     }
 })
-export default class ViewBlock extends Vue {
+export default class ListBlock extends Vue {
 
-    hash: string;
+    height: number|null;
+    size: number;
 
-    block: Block|null;
+    /// The maximum known block hash based on the current state of the list
+    block_max: number = 1;
+
+    blocks: Block[]|null = null;
+
+    timeNow: Date = new Date();
 
     created() {
-        this.reload();
+        this.change(this.height);
+
+        setInterval(() => {
+            this.timeNow = new Date();
+        }, 1000);
     }
 
-    reload() {
+    async change(height: number|null) {
+        this.height = height;
+        let size = this.size + 1;
 
+        try {
+            let newBlocks;
+            if(height == null) {
+                newBlocks = (await this.$http.get('/api/block/latest?size=' + size)).data;
+            }
+            else {
+                newBlocks = (await this.$http.get('/api/block/latest?size=' + size + '?latest=' + height)).data;
+            }
+
+            this.block_max = newBlocks.unshift().height;
+
+            this.blocks = newBlocks;
+
+        }
+        catch(err) {
+            console.error('Could not load block: ', err);
+        }
     }
 }
 </script>

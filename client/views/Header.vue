@@ -16,8 +16,8 @@
         <span>SCAPE</span>
     </div>
     <div class="searchbar">
-        <form>
-            <input type="text" placeholder="Block, Txn, Account..." />
+        <form @submit="doSearch">
+            <input type="text" v-model="searchQuery" placeholder="Block, Txn, Account..." />
         </form>
     </div>
 </div>
@@ -125,6 +125,8 @@ export default class Header extends Vue {
 
     interval: any;
 
+    searchQuery: string = "";
+
     stats: NetworkStatistics = {
         attached_networks: 0,
         connected_peers: 0,
@@ -150,6 +152,33 @@ export default class Header extends Vue {
         catch(err) {
             console.error('Could not load network statistics: ', err);
         }
+    }
+
+    // TODO: This function could be made a bit more efficient
+    // if it sent the data directly to the page rather than just redirecting.
+    async doSearch() {
+
+        this.$store.setLoading(true);
+
+        try {
+            let res = (
+                await this.$http.get('/api/chain/resolve?q=' + encodeURIComponent(this.searchQuery))).data;
+
+            let redir = `/${res.type}/${res.key}`;
+
+            this.$router.push(redir);
+        }
+        catch(err) {
+            if(err.code == 404) {
+                // Push toast indicating that it cannot be found
+
+            }
+            else {
+                // Push toast indicating that we are having server issues or something
+            }
+        }
+
+        this.$store.setLoading(false);
     }
 };
 

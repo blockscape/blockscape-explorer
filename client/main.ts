@@ -1,5 +1,4 @@
 import _ from 'lodash';
-//import VueResource from 'vue-resource';
 import Vue, { Component, ComponentOptions, PluginObject } from 'vue';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
@@ -18,7 +17,7 @@ const ListBlock = (resolve: any) => require(['./views/ListBlock.vue'], resolve);
 const ListTxn = (resolve: any) => require(['./views/ListTxn.vue'], resolve);
 
 Vue.use(VueRouter);
-Vue.use(VueResource);
+Vue.use(<any>VueResource);
 
 import store from './lib/store';
 

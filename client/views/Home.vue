@@ -1,10 +1,11 @@
 <template>
 <main>
-<split-layout :columns="3">
+<split-layout :columns="2">
     <card title="Running Shards" slot="0">
-        <shard-tree :tree="shardTree"></shard-tree>
+        <list-block></list-block>
     </card>
     <card title="Txn Volume" slot="2">
+        <shard-tree :tree="shardTree"></shard-tree>
         <time-series 
             :startTime="0" 
             :skip="86400"
@@ -25,11 +26,13 @@ import Card from './layouts/Card';
 import ShardTree from './charts/ShardTree';
 import TimeSeries from './charts/TimeSeries';
 import SplitLayout from './layouts/SplitLayout';
+import ListBlock from './ListBlock';
 
 Vue.component('card', Card);
 Vue.component('shard-tree', ShardTree);
 Vue.component('time-series', TimeSeries);
 Vue.component('split-layout', SplitLayout);
+Vue.component('list-block', ListBlock);
 
 @Component
 export default class Home extends Vue {
