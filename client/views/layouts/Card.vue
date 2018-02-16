@@ -30,6 +30,8 @@
 
     width: 100%;
 
+    overflow: auto;
+
     h2 {
         text-align: center;
     }

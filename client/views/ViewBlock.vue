@@ -2,10 +2,12 @@
 <main>
 <split-layout :columns="2">
     <card title="Summary" slot="0" :loading="block == null">
-        <table v-if="block != null">
-            <tr><td>Hash</td><td>{{ block.hash }}</td></tr>
+        <table v-if="block != null" class="kv">
+            <tr><td>Hash</td><td>{{ block.header.hash }}</td></tr>
             <tr><td>Height</td><td>{{ block.height }} ({{ block.status }})</td></tr>
             <tr><td># of Txns</td><td>{{ block.txns.length }}</td></tr>
+            <tr></tr>
+            <tr></tr>
         </table>
     </card>
     <card title="Header Info" slot="1" :loading="block == null">
@@ -42,6 +44,7 @@ import MiniTxn from './MiniTxn';
 import {Block} from 'lib/primitives/block';
 
 import datetime from '../lib/filters/datetime';
+import * as abbrev from '../lib/filters/abbrev';
 
 Vue.component('card', Card);
 Vue.component('time-series', TimeSeries);
@@ -49,6 +52,7 @@ Vue.component('split-layout', SplitLayout);
 Vue.component('mini-txn', MiniTxn);
 
 Vue.filter('datetime', datetime);
+Vue.filter('hash_abbrev', abbrev.hash);
 
 @Component({
     props: {
@@ -72,7 +76,7 @@ export default class ViewBlock extends Vue {
 
     async reload() {
         try {
-            this.block = (await this.$http.get('/api/block/' + this.hash)).data;
+            this.block = (await this.$http.get('/api/chain/block/' + this.hash)).data;
         }
         catch(err) {
             console.error('Could not load block: ', err);

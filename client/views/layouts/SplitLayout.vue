@@ -1,8 +1,7 @@
 <template>
 <main>
-    <div class="column"
-        v-for="id in columnIdentifiers"
-        :style="{width: Math.floor(100.0 / columns) + '%' }">
+    <div v-for="id in columnIdentifiers"
+        :class="['column', 'column-size-' + columns]">
         <slot  :name="id" ></slot>
     </div>
 </main>
@@ -19,6 +18,41 @@ main {
     .column {
         display: inline-block;
         min-width: 300px;
+
+        @media screen and (max-width: 600px) {
+            display: block;
+        }
+    }
+
+    .column-size-2 {
+        width: 50%;
+        @media screen and (max-width: 600px) {
+            width: 100%;
+        }
+    }
+    .column-size-3 {
+        width: 33%;
+        @media screen and (max-width: 600px) {
+            width: 100%;
+        }
+    }
+    .column-size-4 {
+        width: 25%;
+        @media screen and (max-width: 600px) {
+            width: 100%;
+        }
+    }
+    .column-size-5 {
+        width: 20%;
+        @media screen and (max-width: 600px) {
+            width: 100%;
+        }
+    }
+    .column-size-6 {
+        width: 16%;
+        @media screen and (max-width: 400px) {
+            width: 100%;
+        }
     }
 }
 </style>

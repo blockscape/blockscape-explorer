@@ -11,8 +11,8 @@
         <span v-else class="center">Table is empty!</span>
     </tbody>
     <!-- Next and previous buttons -->
-    <button type="button">Next &raquo;</button>
-    <button type="button">Prev &laquo;</button>
+    <button type="button" style="float: right;">Next &raquo;</button>
+    <button type="button">&laquo; Prev</button>
 </table>
 
 <spinner v-else></spinner>

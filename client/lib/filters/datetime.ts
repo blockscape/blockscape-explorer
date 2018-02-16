@@ -21,3 +21,17 @@ export default function(value: number, format?: string) {
             sameElse: 'MM/DD/YY'
         }) + ' ' + m.format('h:mma');
 }
+
+/*
+Slightly modified filter of the above, which is more suitable for smaller timescales
+*/
+export function timeAgo(value: number, curr?: number) {
+    let m = moment(value);
+
+    if(!curr) {
+        return m.fromNow();
+    }
+    else {
+        return m.from(moment(curr));
+    }
+}

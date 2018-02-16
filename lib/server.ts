@@ -37,7 +37,7 @@ export function startServer() {
         console.error('No APIs were found!');
     }
 
-    app.use((req, res) => {
+    app.use((_, res) => {
         res.sendFile(process.cwd() + '/client/index.html');
     });
 

@@ -11,12 +11,14 @@
     </div>
 </div>
 <div class="actionbar">
-    <div class="logo">
-        <img :src="require('img/logo.png')" />
-        <span>SCAPE</span>
-    </div>
+    <router-link to="/">
+        <div class="logo">
+            <img :src="require('img/logo.png')" />
+            <span style="color: white">SCAPE</span>
+        </div>
+    </router-link>
     <div class="searchbar">
-        <form @submit="doSearch">
+        <form @submit.prevent="doSearch">
             <input type="text" v-model="searchQuery" placeholder="Block, Txn, Account..." />
         </form>
     </div>
@@ -158,11 +160,14 @@ export default class Header extends Vue {
     // if it sent the data directly to the page rather than just redirecting.
     async doSearch() {
 
-        this.$store.setLoading(true);
+        console.log('Doing search');
+
+        this.$store.commit('setLoading', false);
 
         try {
             let res = (
-                await this.$http.get('/api/chain/resolve?q=' + encodeURIComponent(this.searchQuery))).data;
+                await this.$http.get('/api/chain/resolve?q=' + encodeURIComponent(this.searchQuery))
+            ).data;
 
             let redir = `/${res.type}/${res.key}`;
 
@@ -178,7 +183,7 @@ export default class Header extends Vue {
             }
         }
 
-        this.$store.setLoading(false);
+        this.$store.commit('setLoading', false);
     }
 };
 

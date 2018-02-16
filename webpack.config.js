@@ -2,6 +2,7 @@ var path = require('path');
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+var OfflinePlugin = require('offline-plugin');
 var webpack = require('webpack');
 
 var cfg = {
@@ -124,8 +125,20 @@ var cfg = {
         new webpack.EnvironmentPlugin({
             NODE_ENV: 'development'
         }),
-        new HtmlWebpackPlugin({title: 'Explorer', chunks: ['vendor', 'main'], filename: 'index.html'}),
-        new FaviconsWebpackPlugin({logo: './client/img/favicon.png', prefix: 'assets/', persistentCache: true, inject: true, title: 'Blockscape'}),
+        new HtmlWebpackPlugin({
+            title: 'Explorer', 
+            chunks: ['vendor', 'main'], 
+            filename: 'index.html',
+            template: 'client/index.html'
+        }),
+        new FaviconsWebpackPlugin({
+            logo: './client/img/favicon.png', 
+            prefix: 'assets/', 
+            persistentCache: true, 
+            inject: true, 
+            title: 'Blockscape Explorer',
+            theme_color: '#000'
+        }),
         // separate out vendor files into separate chunk--this dramatically improves load time because vendor chunk
         // only updates after 
         new webpack.optimize.CommonsChunkPlugin({
@@ -138,7 +151,8 @@ var cfg = {
             children: true,
             async: true,
             minChunks: 3
-        })
+        }),
+        new OfflinePlugin()
     ],
     resolve: {
         extensions: ['.tsx', '.ts', '.vue', '.js', '.scss', '.css'],

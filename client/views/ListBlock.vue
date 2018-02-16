@@ -7,10 +7,10 @@
     :cur="blocks ? blocks[0].height : 1" :max="block_max" :min="1" 
     @next="change(blocks[blocks.length - 1].height)" @prev="change(blocks[0].height - size - 1)">
         <tr slot-scope="props">
-            <td>{{ props.item.height }}</td>
-            <td>{{ props.item.hash }}</td>
-            <td>{{ props.item.timestamp | timeAgo timeNow }}</td>
-            <td>{{ props.item.txn_count }}</td>
+            <td style="width: 12%">{{ props.item.height }}</td>
+            <router-link :to="'/block/' + props.item.hash"><td style="width: 40%">{{ props.item.hash | hash_abbrev }}</td></router-link>
+            <td style="width: 28%">{{ props.item.timestamp | timeAgo(timeNow) }}</td>
+            <td style="width: 20%">{{ props.item.txn_count }}</td>
         </tr>
     </paged-table>
 </card>
@@ -29,8 +29,14 @@ import PagedTable from './PagedTable';
 
 import {Block} from 'lib/primitives/block';
 
+import { timeAgo } from '../lib/filters/datetime';
+import * as abbrev from '../lib/filters/abbrev';
+
 Vue.component('card', Card);
 Vue.component('paged-table', PagedTable);
+
+Vue.filter('timeAgo', timeAgo);
+Vue.filter('hash_abbrev', abbrev.hash);
 
 @Component({
     props: {
@@ -72,11 +78,13 @@ export default class ListBlock extends Vue {
         try {
             let newBlocks;
             if(height == null) {
-                newBlocks = (await this.$http.get('/api/block/latest?size=' + size)).data;
+                newBlocks = (await this.$http.get('/api/chain/block/latest?size=' + size)).data;
             }
             else {
-                newBlocks = (await this.$http.get('/api/block/latest?size=' + size + '?latest=' + height)).data;
+                newBlocks = (await this.$http.get('/api/chain/block/latest?size=' + size + '?latest=' + height)).data;
             }
+
+            console.log(newBlocks);
 
             this.block_max = newBlocks.unshift().height;
 

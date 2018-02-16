@@ -50,7 +50,7 @@ export default class ViewTxn extends Vue {
 
     async reload() {
         try {
-            this.txn = (await this.$http.get('/api/txn/' + this.hash)).data;
+            this.txn = (await this.$http.get('/api/chain/txn/' + this.hash)).data;
         }
         catch(err) {
             console.error('Could not load block: ', err);

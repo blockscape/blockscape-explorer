@@ -1,9 +1,5 @@
 import { Router } from 'express';
 
-import { parallel } from 'async';
-
-import { promisify } from 'util';
-
 import rpc from '../rpc';
 
 import handlers from '../handlers';
@@ -25,14 +21,34 @@ router.get('/resolve', async (req, res) => {
     try {
         if(HASH_REGEX.test(q)) {
             // trying querying for both a block and a transaction
-            let r = await promisify(parallel)([
-                async (callback) => {
-                    return await rpc().request('get_block', [q]);
+            var r = null;
+            await Promise.all([
+                async () => {
+                    try {
+                        let d = await rpc().request('get_block', [q]);
+                        r = {
+                            type: 'block',
+                            key: d.header.hash
+                        };
+                    }
+                    catch(e) {}
                 },
-                async (callback) => {
-                    return await rpc().request('get_txn', [q]);
+
+                async () => {
+                    try {
+                        let d = await rpc().request('get_txn', [q]);
+                        r = {
+                            type: 'txn',
+                            key: d.hash
+                        };
+                    }
+                    catch(e) {}
                 }
-            ])
+            ]);
+
+            if(r) {
+                return res.json(r);
+            }
         }
 
         else if(ACCOUNT_ID_REGEX.test(q)) {
@@ -53,7 +69,7 @@ router.get('/resolve', async (req, res) => {
         // the rest we will simply resolve to 404 for right now, since that is how they are created one way or another
     }
 
-    return res.status(404);
+    return res.status(404).end();
 });
 
 router.get('/block/latest', async (req, res) => {
@@ -74,8 +90,7 @@ router.get('/block/latest', async (req, res) => {
 });
 
 router.get('/block/:id', async (req, res) => {
-    let block = await rpc().request('get_block', [req.params.id]);
-    res.json(block);
+    handlers.dismantleRPC(res, await rpc().request('get_block', [req.params.id]));
 });
 
 // post a raw block to the network
@@ -86,8 +101,7 @@ router.post('/', () => {
 // retrieve transaction by hash hex
 router.get('/txn/:id', async (req, res) => {
     // dummy data
-    let txn = await rpc().request('get_txn', [req.params.id]);
-    res.json(txn);
+    handlers.dismantleRPC(res, await rpc().request('get_txn', [req.params.id]));
 });
 
 // post a raw transaction to the network
