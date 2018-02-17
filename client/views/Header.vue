@@ -9,6 +9,9 @@
         <span class="key">Root Height:</span>
         <span class="value">0</span>
     </div>
+    <div style="color: red; font-weight: bold;" v-show="!connected" class="kv">
+        Connection Failure
+    </div>
 </div>
 <div class="actionbar">
     <router-link to="/">
@@ -129,6 +132,8 @@ export default class Header extends Vue {
 
     searchQuery: string = "";
 
+    connected: boolean = true;
+
     stats: NetworkStatistics = {
         attached_networks: 0,
         connected_peers: 0,
@@ -150,9 +155,11 @@ export default class Header extends Vue {
     async getData() {
         try {
             this.stats = (await this.$http.get('/api/stats/net')).data;
+            this.connected = true;
         }
         catch(err) {
             console.error('Could not load network statistics: ', err);
+            this.connected = false;
         }
     }
 
@@ -174,9 +181,9 @@ export default class Header extends Vue {
             this.$router.push(redir);
         }
         catch(err) {
-            if(err.code == 404) {
-                // Push toast indicating that it cannot be found
-
+            console.error(err);
+            if(err.status == 404) {
+                this.$router.push('/404');
             }
             else {
                 // Push toast indicating that we are having server issues or something

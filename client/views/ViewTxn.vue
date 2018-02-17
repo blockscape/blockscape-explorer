@@ -1,17 +1,21 @@
 <template>
-<main>
-<card title="Summary" :loading="txn == null">
+<main v-if="txn != null">
+<card title="Summary">
     <table>
         <tr><td>Size</td><td>{{ txn.size }} (bytes)</td></tr>
-        <tr><td>Timestamp</td><td><router-link :to="'/shard/' + block.header.shard">{{ txn.timestamp | datetime }}</router-link></td></tr>
-        <tr><td>Receive Time</td><td>{{ block.header.merkle_root }}</td></tr>
-        <tr><td>Included in Block</td><td><router-link :href="'/block/' + block.header.prev">{{ txn.block }}</router-link></td></tr>
+        <tr><td>Timestamp</td><td>{{ txn.timestamp | datetime }}</td></tr>
+        <tr><td>Receive Time</td><td>{{ txn.recv_time }}</td></tr>
+        <tr><td>Included in Block</td>
+            <td v-if="is_good_hash(txn.block)"><router-link :href="'/block/' + txn.block">{{ txn.block }}</router-link></td>
+            <td v-else>-</td>
+        </tr>
     </table>
 </card>
-<card title="Details" :loading="txn == null">
-
+<card title="Mutation Details">
+    <mini-mutation-change v-for="(change, i) in txn.mutation.changes" :key="i" :change="change"></mini-mutation-change>
 </card>
 </main>
+<spinner v-else></spinner>
 </template>
 
 <style lang="scss" scoped>
@@ -22,14 +26,14 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 
 import Card from './layouts/Card';
-import MiniMutation from './MiniMutation';
+import MiniMutationChange from './MiniMutationChange';
 
 import { Txn } from 'lib/primitives/txn';
 
 import datetime from '../lib/filters/datetime';
 
 Vue.component('card', Card);
-Vue.component('mini-mutation', MiniMutation);
+Vue.component('mini-mutation-change', MiniMutationChange);
 
 Vue.filter('datetime', datetime);
 
@@ -47,14 +51,23 @@ export default class ViewTxn extends Vue {
 
     txn: Txn|null = null;
 
+    created() {
+        console.log(this.txn);
+
+        this.reload();
+    }
 
     async reload() {
         try {
             this.txn = (await this.$http.get('/api/chain/txn/' + this.hash)).data;
         }
         catch(err) {
-            console.error('Could not load block: ', err);
+            console.error('Could not load txn: ', err);
         }
+    }
+
+    is_good_hash(h: string) {
+        return h == '0x0000000000000000000000000000000000000000000000000000000000000000';
     }
 }
 </script>

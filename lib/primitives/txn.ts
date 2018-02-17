@@ -1,19 +1,21 @@
+export interface MutationChange {
+    /// The type of change, either SetValue or AddEvent
+    type: string,
+
+    /// Hex of the key being changed
+    key: string,
+
+    /// Hex of the new value for the key
+    value: string,
+
+    /// Hex of the extra data
+    supp: string
+}
+
 export interface Mutation {
     /// Is this a contra mutation?
     contra: boolean,
-    changes: {
-        /// The type of change, either SetValue or AddEvent
-        type: string,
-
-        /// Hex of the key being changed
-        key: string,
-
-        /// Hex of the new value for the key
-        value: string,
-
-        /// Hex of the extra data
-        supp: string
-    }[]
+    changes: MutationChange[]
 }
 
 export interface Txn {

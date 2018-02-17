@@ -23,27 +23,27 @@ router.get('/resolve', async (req, res) => {
             // trying querying for both a block and a transaction
             var r = null;
             await Promise.all([
-                async () => {
+                (async () => {
                     try {
                         let d = await rpc().request('get_block', [q]);
                         r = {
                             type: 'block',
-                            key: d.header.hash
+                            key: d.result.header.hash
                         };
                     }
                     catch(e) {}
-                },
+                })(),
 
-                async () => {
+                (async () => {
                     try {
                         let d = await rpc().request('get_txn', [q]);
                         r = {
                             type: 'txn',
-                            key: d.hash
+                            key: d.result.hash
                         };
                     }
                     catch(e) {}
-                }
+                })()
             ]);
 
             if(r) {
