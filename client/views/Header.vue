@@ -1,11 +1,11 @@
 <template>
 <header class="header">
 <div class="infobar">
-    <div class="kv">
+    <div class="kv" v-show="connected">
         <span class="key"># Nodes:</span>
         <span class="value">{{stats.connected_peers}}</span>
     </div>
-    <div class="kv">
+    <div class="kv" v-show="connected">
         <span class="key">Root Height:</span>
         <span class="value">0</span>
     </div>
