@@ -26,12 +26,6 @@ table {
         height: 40px;
         border-bottom: 1px solid $color-gray;
     }
-    
-    td:first-child {
-        font-weight: bold;
-        text-align: right;
-        min-width: 35%;
-    }
 
     th, td {
         padding-left: 5px;

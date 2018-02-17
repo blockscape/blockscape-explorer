@@ -33,14 +33,15 @@
 </split-layout>
 <card title="List of Transactions">
     <paged-table 
-    :header="['Timestamp', 'Hash', 'Change Count']"
+    :header="['Timestamp', 'Hash', 'Size', 'Change Count']"
     :items="block.txns" 
     :cur="0" :max="0" :min="0" 
     class="selectable">
         <tr slot-scope="props" @click="$router.push('/txn/' + props.item.hash)">
-            <td style="width: 30%">{{ props.item.timestamp | timeAbsolute }}</td>
+            <td style="width: 20%">{{ props.item.timestamp | timeAbsolute }}</td>
             <td style="width: 50%">{{ props.item.hash }}</td>
-            <td style="width: 20%">{{ props.item.mutation_count }}</td>
+            <td style="width: 20%">{{ props.item.size | bytes }}</td>
+            <td style="width: 20%">{{ props.item.change_count }}</td>
         </tr>
     </paged-table>
 </card>
@@ -64,6 +65,8 @@ import PagedTable from './PagedTable';
 import {Block} from 'lib/primitives/block';
 
 import datetime from '../lib/filters/datetime';
+import { timeAbsolute } from '../lib/filters/datetime';
+import * as sizes from '../lib/filters/sizes';
 import * as abbrev from '../lib/filters/abbrev';
 
 Vue.component('card', Card);
@@ -72,7 +75,9 @@ Vue.component('split-layout', SplitLayout);
 Vue.component('paged-table', PagedTable);
 
 Vue.filter('datetime', datetime);
+Vue.filter('timeAbsolute', timeAbsolute);
 Vue.filter('hash_abbrev', abbrev.hash);
+Vue.filter('bytes', sizes.bytes);
 
 @Component({
     props: {

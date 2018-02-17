@@ -2,11 +2,11 @@
 <main v-if="txn != null">
 <card title="Summary">
     <table>
-        <tr><td>Size</td><td>{{ txn.size }} (bytes)</td></tr>
+        <tr><td>Size</td><td>{{ txn.size | bytes }}</td></tr>
         <tr><td>Timestamp</td><td>{{ txn.timestamp | datetime }}</td></tr>
         <tr><td>Receive Time</td><td>{{ txn.recv_time }}</td></tr>
         <tr><td>Included in Block</td>
-            <td v-if="is_good_hash(txn.block)"><router-link :href="'/block/' + txn.block">{{ txn.block }}</router-link></td>
+            <td v-if="is_good_hash(txn.block)"><router-link :to="'/block/' + txn.block">{{ txn.block }}</router-link></td>
             <td v-else>-</td>
         </tr>
     </table>
@@ -31,11 +31,13 @@ import MiniMutationChange from './MiniMutationChange';
 import { Txn } from 'lib/primitives/txn';
 
 import datetime from '../lib/filters/datetime';
+import * as sizes from '../lib/filters/sizes';
 
 Vue.component('card', Card);
 Vue.component('mini-mutation-change', MiniMutationChange);
 
 Vue.filter('datetime', datetime);
+Vue.filter('bytes', sizes.bytes);
 
 @Component({
     props: {
@@ -67,7 +69,7 @@ export default class ViewTxn extends Vue {
     }
 
     is_good_hash(h: string) {
-        return h == '0x0000000000000000000000000000000000000000000000000000000000000000';
+        return h != '0x0000000000000000000000000000000000000000000000000000000000000000';
     }
 }
 </script>
