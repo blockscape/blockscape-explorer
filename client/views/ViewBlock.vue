@@ -60,6 +60,9 @@ Vue.filter('hash_abbrev', abbrev.hash);
             type: String,
             required: true
         }
+    },
+    watch: {
+        hash: 'reload'
     }
 })
 export default class ViewBlock extends Vue {
