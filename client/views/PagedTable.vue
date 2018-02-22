@@ -1,24 +1,32 @@
 <template>
 
-<table v-if="items != null">
-    <thead>
-        <tr>
-            <th v-for="head in header">{{ head }}</th>
-        </tr>
-    </thead>
-    <tbody>
-        <slot v-if="items.length" v-for="item in items" :item="item"></slot>
-        <span v-else class="center">Table is empty!</span>
-    </tbody>
-    <!-- Next and previous buttons -->
-    <button type="button" style="float: right;">Next &raquo;</button>
-    <button type="button">&laquo; Prev</button>
-</table>
+<div v-if="items != null">
+    <div class="actions">
+        <button type="button" v-show="min < cur - items" style="float: right;">Next &raquo;</button>
+        <button type="button" v-show="max > cur">&laquo; Prev</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th v-for="head in header" :key="head">{{ head }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <slot v-if="items.length" v-for="item in items" :item="item"></slot>
+            <span v-else class="center">Table is empty!</span>
+        </tbody>
+        <!-- Next and previous buttons -->
+    </table>
+</div>
 
 <spinner v-else></spinner>
 
 </template>
 <style>
+.actions {
+    height: 50px;
+}
 </style>
 
 <script lang="ts">

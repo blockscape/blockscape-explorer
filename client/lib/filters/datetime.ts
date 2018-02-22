@@ -35,3 +35,17 @@ export function timeAgo(value: number, curr?: number) {
         return m.from(moment(curr));
     }
 }
+
+/*
+For showing the exact time without revelance to the current time in mm/dd/yy hh:mma format or so
+*/
+export function timeAbsolute(value: number, format?: string) {
+    let m = moment(value);
+
+    if(!format) {
+        return m.format('ddd MMM D \'YY, h:mma');
+    }
+    else {
+        return m.format(format);
+    }
+}

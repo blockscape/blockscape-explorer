@@ -27,6 +27,11 @@ gulp.task('webpack', (callback) => {
         })
 });
 
-gulp.task('build', ['copy', 'webpack']);
+gulp.task('post-webpack', ['webpack'], () => {
+    gulp.src('client/manifest.json')
+        .pipe(gulp.dest('dist/client/assets'));
+});
+
+gulp.task('build', ['copy', 'post-webpack']);
 
 gulp.task('default', ['build']);

@@ -10,7 +10,7 @@ body {
 
 table {
 
-    display: block;
+    //display: block;
 
     overflow: auto;
 
@@ -18,25 +18,53 @@ table {
 
     border-collapse: collapse;
 
-    tr:nth-child(odd) {
-        background-color: $color-gray;
+    thead tr {
+        border-bottom: 3px solid $color-gray;
     }
 
     tr {
         height: 40px;
-    }
-    
-    td:first-child {
-        font-weight: bold;
-        text-align: right;
-        min-width: 35%;
+        border-bottom: 1px solid $color-gray;
     }
 
-    td {
+    th, td {
         padding-left: 5px;
         padding-right: 5px;
 
+        text-align: left;
+
         text-overflow: ellipsis;
+    }
+}
+
+.selectable table a {
+    text-decoration: none;
+    color: black;
+}
+
+.selectable table tbody tr:hover {
+    cursor: pointer;
+    background-color: $color-gray;
+}
+
+button {
+
+    background-color: white;
+    font-family: Inconsolata;
+    color: black;
+    border: 2px dashed black;
+    outline: none;
+
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+
+    font-weight: bold;
+
+    &:hover {
+        background-color: $color-gray;
+        cursor: pointer;
     }
 }
 

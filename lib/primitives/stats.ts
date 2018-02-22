@@ -1,5 +1,10 @@
 import { u256 } from '.';
 
+export interface Statistics {
+    net: NetworkStatistics,
+    chain: RecordKeeperStatistics
+}
+
 export interface NetworkStatistics {
     attached_networks: number,
     connected_peers: number,
@@ -23,5 +28,9 @@ export interface NetworkPeerInfo {
 }
 
 export interface RecordKeeperStatistics {
+    height: number,
+    current_block_hash: string,
 
+    pending_txns_count: number,
+    pending_txns_size: number
 }

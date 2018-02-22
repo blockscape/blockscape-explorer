@@ -1,13 +1,16 @@
 <template>
 <header class="header">
 <div class="infobar">
-    <div class="kv">
+    <div class="kv" v-if="connected">
         <span class="key"># Nodes:</span>
-        <span class="value">{{stats.connected_peers}}</span>
+        <span class="value">{{ stats.net.connected_peers }}</span>
     </div>
-    <div class="kv">
+    <div class="kv" v-if="connected">
         <span class="key">Root Height:</span>
-        <span class="value">0</span>
+        <span class="value">{{ stats.chain.height }}</span>
+    </div>
+    <div style="color: red; font-weight: bold;" v-if="!connected" class="kv">
+        Connection Failure
     </div>
 </div>
 <div class="actionbar">
@@ -117,7 +120,7 @@ import _ from 'lodash';
 import Vue, { ComponentOptions } from 'vue';
 import Component from 'vue-class-component';
 
-import { NetworkStatistics } from 'lib/primitives/stats';
+import { Statistics } from 'lib/primitives/stats';
 
 const HEADER_POLL_INTERVAL = 5000;
 
@@ -129,13 +132,7 @@ export default class Header extends Vue {
 
     searchQuery: string = "";
 
-    stats: NetworkStatistics = {
-        attached_networks: 0,
-        connected_peers: 0,
-        rx: 0,
-        tx: 0,
-        avg_latency: 0
-    };
+    stats: Statistics|null = null;
 
     created() {
         // start
@@ -149,10 +146,11 @@ export default class Header extends Vue {
 
     async getData() {
         try {
-            this.stats = (await this.$http.get('/api/stats/net')).data;
+            this.stats = (await this.$http.get('/api/stats')).data;
         }
         catch(err) {
             console.error('Could not load network statistics: ', err);
+            this.stats = null;
         }
     }
 
@@ -174,9 +172,9 @@ export default class Header extends Vue {
             this.$router.push(redir);
         }
         catch(err) {
-            if(err.code == 404) {
-                // Push toast indicating that it cannot be found
-
+            console.error(err);
+            if(err.status == 404) {
+                this.$router.push('/404');
             }
             else {
                 // Push toast indicating that we are having server issues or something
@@ -184,6 +182,10 @@ export default class Header extends Vue {
         }
 
         this.$store.commit('setLoading', false);
+    }
+
+    get connected() {
+        return !_.isNil(this.stats);
     }
 };
 

@@ -14,6 +14,7 @@ OfflinePluginRuntime.install();
 
 const Spinner = (resolve: any) => require(['./views/Spinner.vue'], resolve);
 const Home = (resolve: any) => require(['./views/Home.vue'], resolve);
+const NotFound = (resolve: any) => require(['./views/NotFound.vue'], resolve);
 const ViewBlock = (resolve: any) => require(['./views/ViewBlock.vue'], resolve);
 const ViewTxn = (resolve: any) => require(['./views/ViewTxn.vue'], resolve);
 const ListBlock = (resolve: any) => require(['./views/ListBlock.vue'], resolve);
@@ -57,7 +58,8 @@ var app = new Vue({
             { path: '/block', component: <ComponentOptions<Vue>>ListBlock },
             { path: '/block/:hash', component: <ComponentOptions<Vue>>ViewBlock, props: true },
             { path: '/txn', component: <ComponentOptions<Vue>>ListTxn },
-            { path: '/txn/:hash', component: <ComponentOptions<Vue>>ViewTxn, props: true }
+            { path: '/txn/:hash', component: <ComponentOptions<Vue>>ViewTxn, props: true },
+            { path: '*', component: <ComponentOptions<Vue>>NotFound },
         ],
         scrollBehavior(to, from, savedPosition) {
             if(savedPosition)
