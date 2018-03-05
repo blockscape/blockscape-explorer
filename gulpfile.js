@@ -15,7 +15,7 @@ gulp.task('copy', () => {
 });
 
 gulp.task('webpack', (callback) => {
-    const s = spawn('webpack')
+    const s = spawn('node_modules/.bin/webpack')
         .on('close', callback);
 
         s.stdout.on('data', (data) => {

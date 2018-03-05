@@ -23,7 +23,7 @@ build:
     stage: build
     script:
         - NODE_ENV=development npm i
-        - npm i -g gulp-cli webpack
+        - npm i -g gulp-cli
         - gulp
     artifacts:
       paths:
