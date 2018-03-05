@@ -2,8 +2,8 @@
 
 <div v-if="items != null">
     <div class="actions">
-        <button type="button" v-show="min < cur - items" style="float: right;">Next &raquo;</button>
-        <button type="button" v-show="max > cur">&laquo; Prev</button>
+        <button type="button" v-show="min < cur - items.length" style="float: right;">Older &raquo;</button>
+        <button type="button" v-show="max > cur">&laquo; Newer</button>
     </div>
 
     <table>

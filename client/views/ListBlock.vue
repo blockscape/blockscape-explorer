@@ -69,6 +69,12 @@ export default class ListBlock extends Vue {
 
         setInterval(() => {
             this.timeNow = new Date();
+
+            // query for new blocks if we are at the latest
+            if(this.height == null) {
+                // query for latest blocks
+                this.change(this.height);
+            }
         }, 1000);
     }
 
@@ -79,7 +85,7 @@ export default class ListBlock extends Vue {
         try {
             let newBlocks;
             if(height == null) {
-                newBlocks = (await this.$http.get('/api/chain/block/latest?size=' + size)).data;
+                newBlocks = (await this.$http.get('/api/chain/block/latest?size=' + (size - 1))).data;
             }
             else {
                 newBlocks = (await this.$http.get('/api/chain/block/latest?size=' + size + '?latest=' + height)).data;
@@ -88,7 +94,7 @@ export default class ListBlock extends Vue {
             console.log(newBlocks);
 
             if(newBlocks.length > this.size) {
-                this.block_max = newBlocks.unshift().height;
+                this.block_max = newBlocks.shift().height;
             }
             else {
                 this.block_max = newBlocks[0].height;

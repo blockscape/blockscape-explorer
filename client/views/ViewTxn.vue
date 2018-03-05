@@ -45,6 +45,9 @@ Vue.filter('bytes', sizes.bytes);
             type: String,
             required: true
         }
+    },
+    watch: {
+        hash: 'reload'
     }
 })
 export default class ViewTxn extends Vue {
