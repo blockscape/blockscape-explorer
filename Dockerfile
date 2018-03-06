@@ -10,6 +10,6 @@ STOPSIGNAL SIGINT
 
 RUN npm i -g ts-node typescript
 
-COPY package.json package.lock tsconfig.json dist/ /usr/src/
+COPY package.json package-lock.json tsconfig.json dist/ /usr/src/
 
 RUN npm i -production
