@@ -9,6 +9,7 @@ stages:
 
 variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    IMAGE_TAG_ARM: $CI_REGISTRY_IMAGE/arm:$CI_COMMIT_REF_SLUG
     NODE_ENV: production
     DOCKER_HOST: tcp://localhost:2375
 
@@ -37,9 +38,9 @@ package:
         # get the current image for better performance
         - docker pull $IMAGE_TAG
         - docker build -t $IMAGE_TAG .
-        - docker build -t $IMAGE_TAG/arm -f Dockerfile.arm .
+        - docker build -t $IMAGE_TAG_ARM -f Dockerfile.arm .
         - docker push $IMAGE_TAG
-        - docker push $IMAGE_TAG/arm
+        - docker push $IMAGE_TAG_ARM
     dependencies:
         - build
 
