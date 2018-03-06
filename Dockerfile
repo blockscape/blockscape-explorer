@@ -1,4 +1,6 @@
-FROM node:9
+ARG FROM
+
+FROM ${FROM}
 
 EXPOSE 3000
 
@@ -10,6 +12,6 @@ STOPSIGNAL SIGINT
 
 RUN npm i -g ts-node typescript
 
-COPY package.json tsconfig.json dist/ /usr/src/
+COPY package.json package.lock tsconfig.json dist/ /usr/src/
 
 RUN npm i -production
