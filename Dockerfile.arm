@@ -1,0 +1,11 @@
+FROM arm32v6/node:9-alpine
+
+EXPOSE 3000
+
+WORKDIR /usr/src
+
+CMD ["/bin/sh" "-c" "npm i -g ts-node && npm i -production && typescript && ts-node lib/server.ts"]
+
+STOPSIGNAL SIGINT
+
+COPY package.json package-lock.json tsconfig.json dist/ /usr/src/

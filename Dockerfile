@@ -1,6 +1,4 @@
-ARG FROM
-
-FROM ${FROM}
+FROM node:9
 
 EXPOSE 3000
 

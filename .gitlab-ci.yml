@@ -36,8 +36,8 @@ package:
         - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
         # get the current image for better performance
         - docker pull $IMAGE_TAG
-        - docker build -t $IMAGE_TAG --build-arg=node:9 .
-        - docker build -t $IMAGE_TAG/arm --build-arg=arm32v6/node:9-alpine .
+        - docker build -t $IMAGE_TAG .
+        - docker build -t $IMAGE_TAG/arm -f Dockerfile.arm .
         - docker push $IMAGE_TAG
         - docker push $IMAGE_TAG/arm
     dependencies:
