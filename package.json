@@ -31,7 +31,6 @@
     "express": "^4.16.2",
     "gm": "^1.23.1",
     "google-auth-library": "^0.10.0",
-    "html-pdf": "^2.2.0",
     "jayson": "^2.0.5",
     "lodash": "^4.17.4",
     "node-rsa": "^0.4.2",
