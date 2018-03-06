@@ -4,7 +4,7 @@ EXPOSE 3000
 
 WORKDIR /usr/src
 
-CMD ["/bin/ash", "-c", "npm i -g ts-node && npm i -production && typescript && ts-node lib/server.ts"]
+CMD ["/bin/ash", "-c", "npm i -g ts-node && npm i -production && ts-node lib/server.ts"]
 
 STOPSIGNAL SIGINT
 
