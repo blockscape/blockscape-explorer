@@ -1,12 +1,11 @@
 <template>
 <main>
-<card title="Latest Blocks">
     <paged-table 
     :header="['Height', 'Hash', 'Age', 'Txn Count']"
     :items="blocks" 
     :cur="blocks ? blocks[0].height : 1" :max="block_max" :min="1" 
     class="selectable"
-    @next="change(blocks[blocks.length - 1].height)" @prev="change(blocks[0].height - size - 1)">
+    @next="change(blocks[blocks.length - 1].height - 1)" @prev="change(blocks[0].height + size)">
         <tr slot-scope="props" @click="$router.push('/block/' + props.item.hash)">
             <td style="width: 12%">{{ props.item.height }}</td>
             <td style="width: 40%">{{ props.item.hash | hash_abbrev }}</td>
@@ -14,7 +13,6 @@
             <td style="width: 20%">{{ props.item.txn_count }}</td>
         </tr>
     </paged-table>
-</card>
 </main>
 </template>
 
@@ -55,6 +53,7 @@ Vue.filter('hash_abbrev', abbrev.hash);
 export default class ListBlock extends Vue {
 
     height: number|null;
+    curHeight: number|null;
     size: number;
 
     /// The maximum known block hash based on the current state of the list
@@ -64,22 +63,34 @@ export default class ListBlock extends Vue {
 
     timeNow: Date = new Date();
 
-    created() {
-        this.change(this.height);
+    scanInterval?: any = undefined;
 
-        setInterval(() => {
+    created() {
+
+        this.curHeight = this.height;
+
+        this.change(this.curHeight);
+
+        this.scanInterval = setInterval(() => {
             this.timeNow = new Date();
 
             // query for new blocks if we are at the latest
-            if(this.height == null) {
+            if(this.curHeight == null) {
                 // query for latest blocks
-                this.change(this.height);
+                this.change(this.curHeight);
             }
+            else clearInterval(this.scanInterval);
         }, 1000);
     }
 
+    destroyed() {
+        if(this.scanInterval) {
+            clearInterval(this.scanInterval);
+        }
+    }
+
     async change(height: number|null) {
-        this.height = height;
+        this.curHeight = height;
         let size = this.size + 1;
 
         try {
@@ -88,7 +99,7 @@ export default class ListBlock extends Vue {
                 newBlocks = (await this.$http.get('/api/chain/block/latest?size=' + (size - 1))).data;
             }
             else {
-                newBlocks = (await this.$http.get('/api/chain/block/latest?size=' + size + '?latest=' + height)).data;
+                newBlocks = (await this.$http.get('/api/chain/block/latest?size=' + size + '?height=' + height)).data;
             }
 
             console.log(newBlocks);

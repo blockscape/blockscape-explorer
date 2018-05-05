@@ -1,7 +1,7 @@
 <template>
 <main>
 <split-layout :columns="2">
-    <card title="Running Shards" slot="0">
+    <card title="Recent Blocks" slot="0">
         <list-block></list-block>
     </card>
     <card title="Txn Volume" slot="2">

@@ -8,9 +8,9 @@ import { isNumber } from 'lodash';
 
 export let router = Router();
 
-let HASH_REGEX = /^(0x)?[0-9a-f]{64}$/i.compile();
-let ACCOUNT_ID_REGEX = /^(0x)?[0-9a-f]{40}$/i.compile();
-let HEIGHT_REGEX = /^\d+$/.compile();
+let HASH_REGEX = /^(0x)?[0-9a-f]{64}$/i;
+let ACCOUNT_ID_REGEX = /^(0x)?[0-9a-f]{40}$/i;
+let HEIGHT_REGEX = /^[0-9]+$/;
 
 
 router.get('/resolve', async (req, res) => {
@@ -57,7 +57,16 @@ router.get('/resolve', async (req, res) => {
         }
 
         else if(HEIGHT_REGEX.test(q)) {
-            return res.json(await rpc().request('get_block_by_height', [q]));
+            // get a hash to go by
+            let hashes = (await rpc().request('get_blocks_of_height', [parseInt(q)])).result;
+
+            if(hashes.length) {
+                let d = await rpc().request('get_block', [hashes[0]]);
+                return res.json({
+                    type: 'block',
+                    key: d.result.header.hash
+                });
+            }
         }
     }
     catch(e) {
@@ -78,13 +87,7 @@ router.get('/block/latest', async (req, res) => {
         return handlers.invalidParam(res, 'size', req.query.size, 'number');
     }
 
-    let blocks;
-    if(!isNumber(req.query.height)) {
-        blocks = await rpc().request('get_latest_blocks', [size]);
-    }
-    else {
-        blocks = await rpc().request('get_latest_blocks', [size, req.query.height]);
-    }
+    let blocks = await rpc().request('get_latest_blocks', [size]);
 
     handlers.dismantleRPC(res, blocks);
 });
