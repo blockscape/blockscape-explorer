@@ -37,7 +37,6 @@ package:
     script:
         - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
         # get the current image for better performance
-        - docker pull $IMAGE_TAG
         - docker build -t $IMAGE_TAG .
         - docker build -t $IMAGE_TAG_ARM -f Dockerfile.arm .
         - docker push $IMAGE_TAG
