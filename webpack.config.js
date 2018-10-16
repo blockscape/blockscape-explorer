@@ -2,7 +2,6 @@ var path = require('path');
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-var OfflinePlugin = require('offline-plugin');
 var webpack = require('webpack');
 
 var cfg = {
@@ -151,8 +150,7 @@ var cfg = {
             children: true,
             async: true,
             minChunks: 3
-        }),
-        new OfflinePlugin()
+        })
     ],
     resolve: {
         extensions: ['.tsx', '.ts', '.vue', '.js', '.scss', '.css'],

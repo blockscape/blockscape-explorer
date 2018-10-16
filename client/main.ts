@@ -9,9 +9,6 @@ import ToastStack from './views/ToastStack';
 
 import 'css/style.scss';
 
-import * as OfflinePluginRuntime from 'offline-plugin/runtime';
-OfflinePluginRuntime.install();
-
 const Spinner = (resolve: any) => require(['./views/Spinner.vue'], resolve);
 const Home = (resolve: any) => require(['./views/Home.vue'], resolve);
 const NotFound = (resolve: any) => require(['./views/NotFound.vue'], resolve);

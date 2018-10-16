@@ -1,3 +1,3 @@
-pushd dist
-ts-node lib/server.ts
-popd
+cd dist
+../node_modules/.bin/ts-node lib/server.ts
+cd ..

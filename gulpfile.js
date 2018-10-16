@@ -7,11 +7,11 @@ gulp.task('clean', () => {
 });
 
 gulp.task('copy', () => {
-    gulp.src(['lib/**/*'], {base: '.'})
+    return gulp.src(['lib/**/*'], {base: '.'})
         .pipe(gulp.dest('dist'));
 
-    gulp.src(['/lib/tsconfig.json'])
-        .pipe(gulp.dest('dist/tsconfig.json'));
+    //gulp.src(['lib/tsconfig.json'])
+    //    .pipe(gulp.dest('dist/tsconfig.json'));
 });
 
 gulp.task('webpack', (callback) => {
@@ -27,11 +27,11 @@ gulp.task('webpack', (callback) => {
         })
 });
 
-gulp.task('post-webpack', ['webpack'], () => {
-    gulp.src('client/manifest.json')
+gulp.task('post-webpack', gulp.series(['webpack']), () => {
+    return gulp.src('client/manifest.json')
         .pipe(gulp.dest('dist/client/assets'));
 });
 
-gulp.task('build', ['copy', 'post-webpack']);
+gulp.task('build', gulp.series(['copy', 'post-webpack']));
 
-gulp.task('default', ['build']);
+gulp.task('default', gulp.series(['build']));
